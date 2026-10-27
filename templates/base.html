@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f8fafc">
+  <title>{% block title %}Chat Talking{% endblock %} | 時事を話そう</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+  <a class="brand" href="/" aria-label="Chat Talking トップへ"><span class="brand-icon">C<span>.</span></span><span>chat<span class="brand-muted">talking</span><small>時事を、自由に話そう。</small></span></a>
+  <nav class="top-links" aria-label="サイトメニュー"><a href="/">スレッド一覧</a><a href="/new" class="btn btn-dark">＋ スレッドを立てる</a></nav>
+</div></header>
+<div class="wrap"><div class="layout"><aside class="sidebar">
+  <div class="side-label">カテゴリー</div>
+  <a class="side-item {% if not selected|default('') %}current{% endif %}" href="/">すべての話題 <span>⌂</span></a>
+  {% for category in categories %}<a class="side-item {% if selected|default('') == category %}current{% endif %}" href="/?category={{ category|urlencode }}">{{ category }} <span>›</span></a>{% endfor %}
+  <p class="side-note">この掲示板は匿名です。書き込みは公開されます。個人情報を投稿しないでください。</p>
+</aside><main class="main-content">{% block content %}{% endblock %}</main></div>
+<footer class="footer"><span>© Chat Talking</span><span>匿名掲示板 · <a href="/admin">管理者</a></span></footer></div>
+</body></html>
