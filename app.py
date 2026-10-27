@@ -104,7 +104,7 @@ def anchors(value, topic_id):
         parts.append(escape(value[prev:match.start()]))
         number = int(match.group(1))
         page = (number - 2) // 50 + 1 if number >= 2 else 1
-        parts.append(Markup('<a href="/t/%d?page=%d#res-%d">&gt;&gt;%d</a>' % (topic_id, page, number, number)))
+        parts.append(Markup('<a href="/t/%d?page_num=%d#res-%d">&gt;&gt;%d</a>' % (topic_id, page, number, number)))
         prev = match.end()
     parts.append(escape((value or "")[prev:]))
     return Markup("").join(parts)
