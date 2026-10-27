@@ -103,7 +103,7 @@ def test_anchor_safety_outside_tags(board):
     html = str(app.anchors('<img src=x> >>8 & "', 15))
     assert '<img' not in html
     assert '&lt;img' in html
-    assert '/t/15?page=1#res-8' in html
+    assert '/t/15?page_num=1#res-8' in html
 
 
 def test_production_requires_secrets(monkeypatch):
