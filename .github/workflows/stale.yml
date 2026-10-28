@@ -1,0 +1,17 @@
+name: Stale issues and PRs
+on:
+  schedule: [{cron: '17 1 * * *'}]
+permissions:
+  issues: write
+  pull-requests: write
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          days-before-stale: 60
+          days-before-close: 14
+          exempt-issue-labels: 'pinned,security'
+          stale-issue-message: '60日間動きがないため stale としました。継続する場合はコメントしてください。'
+          close-issue-message: 'stale のまま14日経過したためクローズします。再開はいつでも歓迎です。'

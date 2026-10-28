@@ -1,0 +1,28 @@
+# On issue open: add a welcome comment + keyword labels are proposed in a
+# comment first. To auto-apply labels, set APPLY_LABELS below to 'true'.
+name: Issue triage
+on:
+  issues:
+    types: [opened]
+permissions:
+  issues: write
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        env:
+          APPLY_LABELS: 'true'   # <-- flip to 'true' after a trial period
+        with:
+          script: |
+            const rules = {bug:['bug','error','エラー','バグ','不具合'],enhancement:['feature','要望','改善案','提案'],documentation:['readme','docs','ドキュメント'],question:['question','質問']};
+            const text = (context.payload.issue.title + '\n' + (context.payload.issue.body||'')).toLowerCase();
+            const labels = Object.entries(rules).filter(([l,ws])=>ws.some(w=>text.includes(w))).map(([l])=>l);
+            if ((context.payload.issue.body||'').trim().length < 20 && !labels.includes('question')) labels.push('needs-info');
+            core.info(`proposed labels: ${labels.join(', ')}`);
+            if (process.env.APPLY_LABELS === 'true' && labels.length) {
+              await github.rest.issues.addLabels({...context.repo, issue_number: context.issue.number, labels});
+            } else if (labels.length) {
+              await github.rest.issues.createComment({...context.repo, issue_number: context.issue.number,
+                body: `ラベルの候補: ${labels.map(l=>'\`'+l+'\`').join(' ')}（自動付与は現在オフです）`});
+            }
