@@ -1,0 +1,12 @@
+documentation:
+  - changed-files:
+      - any-glob-to-any-file: ['docs/**', '**/*.md']
+ci:
+  - changed-files:
+      - any-glob-to-any-file: ['.github/workflows/**']
+tests:
+  - changed-files:
+      - any-glob-to-any-file: ['tests/**', '**/test_*.py']
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file: ['**/requirements*.txt', '**/package.json', '**/package-lock.json']
